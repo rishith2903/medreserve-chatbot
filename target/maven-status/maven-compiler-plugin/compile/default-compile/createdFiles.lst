@@ -1,0 +1,4 @@
+com\medreserve\chatbot\ChatbotApplication.class
+com\medreserve\chatbot\ChatbotApplication$1.class
+com\medreserve\chatbot\controller\ChatbotController.class
+com\medreserve\chatbot\config\ChatbotConfig.class

@@ -2,8 +2,9 @@ package com.medreserve.chatbot.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
+import com.medreserve.chatbot.config.ChatbotConfig;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,14 +22,8 @@ import java.util.List;
 @Slf4j
 public class ChatbotController {
 
-    @Value("${chatbot.supported-languages}")
-    private List<String> supportedLanguages;
-
-    @Value("${chatbot.default-language:en}")
-    private String defaultLanguage;
-
-    @Value("${chatbot.debug-mode:false}")
-    private boolean debugMode;
+    @Autowired
+    private ChatbotConfig chatbotConfig;
 
     /**
      * Main webhook endpoint for Dialogflow
@@ -39,7 +34,7 @@ public class ChatbotController {
     @PostMapping
     public ResponseEntity<Map<String, Object>> handleWebhook(@RequestBody Map<String, Object> request) {
         try {
-            if (debugMode) {
+            if (chatbotConfig.isDebugMode()) {
                 log.info("📥 Incoming Dialogflow request: {}", request);
             }
 
@@ -53,16 +48,16 @@ public class ChatbotController {
             // Extract language code
             String languageCode = (String) queryResult.get("languageCode");
             if (languageCode == null || languageCode.isEmpty()) {
-                languageCode = defaultLanguage;
+                languageCode = chatbotConfig.getDefaultLanguage();
             }
-            
+
             // Normalize language code (remove region if present, e.g., "en-US" -> "en")
             languageCode = languageCode.split("-")[0].toLowerCase();
-            
+
             // Validate supported language
-            if (!supportedLanguages.contains(languageCode)) {
-                log.warn("⚠️ Unsupported language: {}, using default: {}", languageCode, defaultLanguage);
-                languageCode = defaultLanguage;
+            if (!chatbotConfig.getSupportedLanguages().contains(languageCode)) {
+                log.warn("⚠️ Unsupported language: {}, using default: {}", languageCode, chatbotConfig.getDefaultLanguage());
+                languageCode = chatbotConfig.getDefaultLanguage();
             }
 
             // Extract intent information
@@ -86,7 +81,7 @@ public class ChatbotController {
             response.put("fulfillmentText", fulfillmentText);
             
             // Add additional response data for debugging
-            if (debugMode) {
+            if (chatbotConfig.isDebugMode()) {
                 Map<String, Object> debugInfo = new HashMap<>();
                 debugInfo.put("detectedIntent", intentName);
                 debugInfo.put("detectedLanguage", languageCode);
@@ -112,7 +107,7 @@ public class ChatbotController {
         Map<String, Object> health = new HashMap<>();
         health.put("status", "healthy");
         health.put("service", "MedReserve Multilingual Chatbot");
-        health.put("supportedLanguages", supportedLanguages);
+        health.put("supportedLanguages", chatbotConfig.getSupportedLanguages());
         health.put("timestamp", System.currentTimeMillis());
         return ResponseEntity.ok(health);
     }

@@ -2,9 +2,11 @@ package com.medreserve.chatbot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.context.annotation.Bean;
+import com.medreserve.chatbot.config.ChatbotConfig;
 
 /**
  * Main application class for MedReserve Multilingual Chatbot
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Bean;
  * that supports multilingual responses in English, Hindi, and Telugu.
  */
 @SpringBootApplication
+@EnableConfigurationProperties(ChatbotConfig.class)
 public class ChatbotApplication {
 
     public static void main(String[] args) {
