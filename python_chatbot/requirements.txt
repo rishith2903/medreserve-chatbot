@@ -1,0 +1,162 @@
+# MedReserve AI Chatbot Dependencies
+# Core FastAPI and WebSocket
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+websockets>=11.0.0
+python-socketio>=5.9.0
+python-multipart>=0.0.6
+
+# Authentication and Security
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-decouple>=3.8
+
+# Database and ORM
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.7
+alembic>=1.12.0
+
+# HTTP Client for Spring Boot API integration
+httpx>=0.25.0
+aiohttp>=3.8.0
+requests>=2.31.0
+
+# Data Processing and Validation
+pydantic>=2.4.0
+pydantic-settings>=2.0.0
+python-dateutil>=2.8.2
+
+# NLP and AI (Optional)
+nltk>=3.8.1
+spacy>=3.7.0
+transformers>=4.35.0
+torch>=2.1.0
+
+# Logging and Monitoring
+loguru>=0.7.2
+structlog>=23.2.0
+
+# Background Tasks
+celery>=5.3.0
+redis>=5.0.0
+
+# File Handling
+python-magic>=0.4.27
+aiofiles>=23.2.1
+
+# Date and Time
+pytz>=2023.3
+arrow>=1.3.0
+
+# Environment and Configuration
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0
+
+# Development Tools
+black>=23.9.0
+isort>=5.12.0
+flake8>=6.1.0
+
+# Medical Data Processing
+pandas>=2.1.0
+numpy>=1.25.0
+
+# Real-time Communication
+python-socketio[asyncio_client]>=5.9.0
+eventlet>=0.33.3
+
+# API Documentation
+fastapi-users>=12.1.0
+fastapi-pagination>=0.12.0
+
+# Caching
+aiocache>=0.12.2
+
+# Message Queue
+aio-pika>=9.3.0
+
+# Health Checks
+healthcheck>=1.3.3
+
+# CORS
+fastapi-cors>=0.0.6
+
+# Rate Limiting
+slowapi>=0.1.9
+
+# File Upload
+python-multipart>=0.0.6
+
+# UUID Generation
+uuid>=1.30
+
+# JSON Processing
+orjson>=3.9.0
+
+# Async Database
+asyncpg>=0.29.0
+databases[postgresql]>=0.8.0
+
+# WebSocket Extensions
+fastapi-websocket-rpc>=0.1.25
+
+# Medical Terminology (Optional)
+pymedtermino>=0.3.0
+
+# Natural Language Processing
+textblob>=0.17.1
+langdetect>=1.0.9
+
+# Machine Learning (Optional)
+scikit-learn>=1.3.0
+joblib>=1.3.0
+
+# Time Zone Handling
+zoneinfo>=0.2.1
+
+# Async HTTP Client
+aiohttp-cors>=0.7.0
+
+# Message Serialization
+msgpack>=1.0.7
+
+# Configuration Management
+dynaconf>=3.2.0
+
+# Monitoring and Metrics
+prometheus-client>=0.18.0
+
+# Error Tracking
+sentry-sdk[fastapi]>=1.38.0
+
+# Template Engine (for email templates)
+jinja2>=3.1.2
+
+# Email Support
+fastapi-mail>=1.4.1
+
+# Phone Number Validation
+phonenumbers>=8.13.0
+
+# Image Processing (for profile pictures)
+pillow>=10.0.0
+
+# Encryption
+cryptography>=41.0.0
+
+# API Rate Limiting
+limits>=3.6.0
+
+# Background Job Processing
+rq>=1.15.0
+
+# Session Management
+itsdangerous>=2.1.2
+
+# HTTP Status Codes
+http-status>=0.1.0

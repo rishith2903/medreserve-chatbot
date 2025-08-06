@@ -112,6 +112,34 @@ if not settings.debug:
 # Include routers
 app.include_router(chat_router)
 
+# Exception handlers
+@app.exception_handler(HTTPException)
+async def custom_http_exception_handler(request: Request, exc: HTTPException):
+    """Custom HTTP exception handler for better error responses"""
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": exc.detail,
+            "status_code": exc.status_code,
+            "timestamp": datetime.now().isoformat(),
+            "path": str(request.url)
+        }
+    )
+
+@app.exception_handler(500)
+async def internal_server_error_handler(request: Request, exc: Exception):
+    """Handle internal server errors"""
+    logger.error(f"Internal server error: {str(exc)}")
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": "Internal server error",
+            "status_code": 500,
+            "timestamp": datetime.now().isoformat(),
+            "path": str(request.url)
+        }
+    )
+
 # Serve static files for uploads
 if os.path.exists(settings.upload_directory):
     app.mount("/uploads", StaticFiles(directory=settings.upload_directory), name="uploads")
