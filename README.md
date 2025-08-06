@@ -413,6 +413,3 @@ For issues and questions:
 3. Check the API documentation: `/docs`
 4. Submit an issue on GitHub
 
----
-
-**Built with ❤️ for better healthcare through AI-powered communication**
