@@ -402,11 +402,5 @@ async def get_chat_stats(user: Dict[str, Any] = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail="Failed to retrieve statistics")
 
 
-# Error handlers
-@router.exception_handler(HTTPException)
-async def http_exception_handler(request, exc):
-    return {
-        'error': exc.detail,
-        'status_code': exc.status_code,
-        'timestamp': datetime.now().isoformat()
-    }
+# Error handlers will be added to the main app, not the router
+# This is handled in main.py
