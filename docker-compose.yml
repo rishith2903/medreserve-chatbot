@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   chatbot:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8001:8001"
     environment:
@@ -12,10 +14,13 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - SPRING_BOOT_BASE_URL=http://backend:8080/api
       - JWT_SECRET_KEY=${JWT_SECRET_KEY:-your-secret-key-change-in-production}
+      - JWT_ALGORITHM=HS256
+      - JWT_EXPIRATION_HOURS=24
       - CORS_ORIGINS=["http://localhost:3000","http://localhost:8080"]
     volumes:
       - ./uploads:/app/uploads
       - ./logs:/app/logs
+      - ./data:/app/data
     depends_on:
       - redis
     restart: unless-stopped
@@ -24,6 +29,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 40s
     networks:
       - medreserve-network
 

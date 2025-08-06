@@ -1,0 +1,80 @@
+# MedReserve AI Chatbot - Production Dockerfile
+# Multi-stage build for optimized production deployment
+
+# Build stage
+FROM python:3.11-slim as builder
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    build-essential \
+    libffi-dev \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Upgrade pip and install wheel
+RUN pip install --upgrade pip setuptools wheel
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Production stage
+FROM python:3.11-slim as production
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PATH="/opt/venv/bin:$PATH"
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Copy virtual environment from builder stage
+COPY --from=builder /opt/venv /opt/venv
+
+# Create non-root user
+RUN groupadd -r chatbot && useradd -r -g chatbot -u 1000 chatbot
+
+# Set working directory
+WORKDIR /app
+
+# Copy application code
+COPY --chown=chatbot:chatbot . .
+
+# Create necessary directories with proper permissions
+RUN mkdir -p logs uploads data models && \
+    chown -R chatbot:chatbot /app
+
+# Switch to non-root user
+USER chatbot
+
+# Verify critical packages are installed
+RUN python -c "import jwt; print('✅ PyJWT installed')" && \
+    python -c "import jose; print('✅ python-jose installed')" && \
+    python -c "import fastapi; print('✅ FastAPI installed')" && \
+    python -c "import uvicorn; print('✅ Uvicorn installed')"
+
+# Expose port
+EXPOSE 8001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8001/health || exit 1
+
+# Run the application
+CMD ["python", "main.py"]

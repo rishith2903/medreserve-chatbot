@@ -1,8 +1,24 @@
 # 🐳 MedReserve AI Chatbot Docker Deployment Guide
 
-## 🔍 Problem Solved
+## 🚨 **PyJWT Fix Applied**
 
-**Original Error:**
+**Issue Resolved**: `ModuleNotFoundError: No module named 'jwt'`
+
+### **What Was Fixed:**
+1. ✅ Added `PyJWT>=2.8.0` to requirements.txt
+2. ✅ Enhanced Dockerfile with package verification
+3. ✅ Created comprehensive build and test scripts
+4. ✅ Added production-ready Dockerfile variant
+
+## 🛠️ **Quick Fix Summary**
+
+The error occurred because:
+- Your code imports `jwt` directly: `import jwt`
+- But you only had `python-jose[cryptography]` in requirements.txt
+- `python-jose` provides JWT functionality but under `jose` import name
+- **Solution**: Added `PyJWT>=2.8.0` which provides the `jwt` module
+
+## 🔍 Original Problem
 ```
 error: failed to solve: failed to read dockerfile: open Dockerfile: no such file or directory
 ```
