@@ -1,0 +1,56 @@
+# MedReserve AI Chatbot Dependencies
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+websockets>=11.0.0
+python-socketio>=5.9.0
+python-multipart>=0.0.6
+
+# Authentication and Security
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-decouple>=3.8
+
+# Database
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.7
+alembic>=1.12.0
+
+# HTTP Client for Spring Boot integration
+httpx>=0.25.0
+aiohttp>=3.8.0
+requests>=2.31.0
+
+# Data Processing
+pydantic>=2.4.0
+pydantic-settings>=2.0.0
+python-dateutil>=2.8.2
+
+# NLP (Optional)
+nltk>=3.8.1
+spacy>=3.7.0
+
+# Logging
+loguru>=0.7.2
+
+# Background Tasks
+celery>=5.3.0
+redis>=5.0.0
+
+# File Handling
+aiofiles>=23.2.1
+
+# Environment
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# CORS
+fastapi-cors>=0.0.6
+
+# JSON Processing
+orjson>=3.9.0
+
+# WebSocket Extensions
+fastapi-websocket-rpc>=0.1.25
